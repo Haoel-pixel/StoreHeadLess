@@ -31,6 +31,8 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, onUnmounted } from 'vue';
+
 const { t } = useI18n();
 
 useSeoMeta({
@@ -46,15 +48,7 @@ const { data: categories } = await useAsyncData("categories", () => {
     return categoryStore.fetchCategories();
 });
 
-import { onMounted, onUnmounted } from 'vue';
-
-const categoryStore = useCategoryStore();
-const { data: categories } = await useAsyncData("categories", () => {
-    return categoryStore.fetchCategories();
-});
-
 // Countdown logic
-const countdownElement = ref<HTMLElement | null>(null);
 let intervalId: any;
 
 onMounted(() => {
