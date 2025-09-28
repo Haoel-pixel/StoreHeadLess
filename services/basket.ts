@@ -22,8 +22,7 @@ export const addPackageToBasket = (
     quantity: number,
     variables?: Record<string, string>,
 ) =>
-    useAPI<Basket>(
-        "accounts",
+    useIdentAPI<Basket>(
         `/baskets/${basketId}/packages`,
         {
             method: "POST",
@@ -37,7 +36,7 @@ export const addPackageToBasket = (
     );
 
 export const removePackageFromBasket = (basketId: string, packageId: string) =>
-    useAPI<Basket>("baskets", `/${basketId}/packages/remove`, {
+    useIdentAPI<Basket>(`/baskets/${basketId}/packages/remove`, {
         method: "POST",
         body: {
             package_id: packageId,
@@ -50,7 +49,7 @@ export const giftPackage = (
     targetGiftUsernameId: string,
     variables?: Record<string, string>,
 ) =>
-    useAPI<Basket>("baskets", `/${basketId}/packages`, {
+    useIdentAPI<Basket>(`/baskets/${basketId}/packages`, {
         method: "POST",
         body: {
             package_id: packageId,
