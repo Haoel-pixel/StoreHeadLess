@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0610;
+      color: white;
+    }
+    .hover-card {
+      transition: all 0.3s ease;
+    }
+    .hover-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="relative">
+      <div class="bg-[linear-gradient(180deg,#100218_0%,#0b0610_60%)] h-48 md:h-56 flex items-center">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col items-center justify-center w-full gap-6">
+          <!-- IP + Discord Centered -->
+          <div class="grid grid-cols-2 gap-6 w-full max-w-3xl">
+            <div id="server-ip" class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-center gap-2 text-xl font-bold cursor-pointer hover-card">
+              <i class="bi bi-hdd-network text-purple-400 text-2xl"></i> mc.hypixel.net
+            </div>
+            <div class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-center gap-2 text-xl font-bold hover-card cursor-pointer text-blue-400">
+              <i class="bi bi-discord text-2xl"></i> Join Discord
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo slim bar -->
+      <div class="max-w-6xl mx-auto px-6 -mt-8 relative">
+        <div class="bg-[#24182a]/80 border border-[#3a2740] rounded-lg p-4 shadow-lg flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-[#8b2eff] to-[#5a00ff] flex items-center justify-center text-sm font-bold">47%</div>
+            <div>
+              <div class="font-bold text-white">Summer Sale</div>
+              <div class="text-sm text-gray-300">476.99 / 99.99 USD</div>
+            </div>
+          </div>
+          <button class="bg-[#4b2a66] px-4 py-2 rounded-md hover-card">Cart</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="max-w-6xl mx-auto px-6 mt-10 pb-16">
+      <!-- Hero -->
+      <section class="bg-gradient-to-r from-[#7b09ff] to-[#a22bff] rounded-xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 hover-card">
+        <div class="flex-1">
+          <h2 class="text-4xl font-extrabold">DELUXE RANK</h2>
+          <p class="text-gray-100 mt-3 max-w-md">Limited-Time Offer! Grab This Exclusive Package at a Special Discount – Purchase It Now!</p>
+        </div>
+        <div class="text-center">
+          <div class="inline-block bg-[#ffffff22] rounded-md px-6 py-4 text-lg font-bold">Deluxe Rank</div>
+          <div class="text-2xl font-extrabold mt-3">$19.99</div>
+        </div>
+        <div class="text-right">
+          <div class="text-sm">HURRY UP! DEAL ENDS IN</div>
+          <div class="flex gap-3 mt-3" id="countdown"></div>
+        </div>
+      </section>
+
+      <!-- Categories -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-between hover-card">
+          <div>
+            <h3 class="text-2xl font-extrabold">Prison Ranks</h3>
+            <div class="text-gray-300">Click to browse</div>
+          </div>
+          <i class="bi bi-box-seam text-purple-400 text-3xl"></i>
+        </div>
+
+        <div class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-between hover-card">
+          <div>
+            <h3 class="text-2xl font-extrabold">Factions</h3>
+            <div class="text-gray-300">Click to browse</div>
+          </div>
+          <i class="bi bi-people-fill text-green-400 text-3xl"></i>
+        </div>
+
+        <div class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-between hover-card">
+          <div>
+            <h3 class="text-2xl font-extrabold">Tokens</h3>
+            <div class="text-gray-300">Click to browse</div>
+          </div>
+          <i class="bi bi-coin text-yellow-400 text-3xl"></i>
+        </div>
+
+        <div class="bg-[#24182a] border border-[#3a2740] rounded-lg p-6 flex items-center justify-between hover-card">
+          <div>
+            <h3 class="text-2xl font-extrabold">Top Patrons</h3>
+            <div class="text-gray-300">Click to browse</div>
+          </div>
+          <i class="bi bi-trophy-fill text-orange-400 text-3xl"></i>
+        </div>
+      </section>
+    </main>
+
+    <footer class="text-center text-gray-500 py-8">© 2025 Aspect Network - Demo UI</footer>
+  </div>
+
+  <script>
+    // Countdown
+    const target = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+    function updateCountdown() {
+      const diff = Math.max(0, target - new Date());
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      document.getElementById('countdown').innerHTML = `
+        <div class="bg-[#00000022] px-4 py-3 rounded-lg text-center">
+          <div class="text-xl font-bold">${days}</div>
+          <div class="text-xs text-gray-200">DAYS</div>
+        </div>
+        <div class="bg-[#00000022] px-4 py-3 rounded-lg text-center">
+          <div class="text-xl font-bold">${hours}</div>
+          <div class="text-xs text-gray-200">HOURS</div>
+        </div>
+        <div class="bg-[#00000022] px-4 py-3 rounded-lg text-center">
+          <div class="text-xl font-bold">${minutes}</div>
+          <div class="text-xs text-gray-200">MINUTES</div>
+        </div>
+        <div class="bg-[#00000022] px-4 py-3 rounded-lg text-center">
+          <div class="text-xl font-bold">${seconds}</div>
+          <div class="text-xs text-gray-200">SECONDS</div>
+        </div>`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // SweetAlert Copy Animation
+    document.getElementById('server-ip').addEventListener('click', () => {
+      navigator.clipboard.writeText('mc.hypixel.net').then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Copied!',
+          text: 'Server IP mc.hypixel.net copied to clipboard.',
+          showConfirmButton: false,
+          timer: 2000,
+          background: '#1f1b29',
+          color: '#fff',
+          customClass: {
+            popup: 'rounded-xl shadow-2xl'
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
