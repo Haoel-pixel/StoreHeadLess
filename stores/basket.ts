@@ -156,9 +156,8 @@ export const useBasketStore = defineStore("basket", () => {
                 quantity,
             });
 
-            toastStore.addToast('Please log in to add items to your cart.', {
-                type: 'info',
-            });
+            const uiStore = useUIStore();
+            uiStore.toggleLoginModal(true);
             return;
         }
 

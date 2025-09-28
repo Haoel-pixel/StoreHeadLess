@@ -23,8 +23,8 @@ export const addPackageToBasket = (
     variables?: Record<string, string>,
 ) =>
     useAPI<Basket>(
-        "baskets",
-        `/${basketId}/packages`,
+        "accounts",
+        `/baskets/${basketId}/packages`,
         {
             method: "POST",
             body: {
