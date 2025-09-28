@@ -5,15 +5,15 @@
         :class="classes"
         ref="sidebar"
     >
-        <div class="sidebar__header">
+        <div class="p-7">
             <slot name="header"></slot>
         </div>
 
-        <div class="sidebar__content">
+        <div class="flex-grow px-7 py-8 overflow-auto">
             <slot></slot>
         </div>
 
-        <div class="sidebar__actions">
+        <div class="p-7">
             <slot name="actions"></slot>
         </div>
     </Overlay>
@@ -28,60 +28,16 @@ const props = withDefaults(defineProps<SidebarProps>(), {
     position: "right",
 });
 
-const classes = computed(() => ({
-    sidebar: true,
-    "sidebar--left": props.position === "left",
-    "sidebar--right": props.position === "right",
-}));
+const classes = computed(() => [
+    'fixed top-0 h-screen h-[100dvh] w-full sm:w-[420px] z-50 bg-[#0b0610] border-l border-[#3a2740] flex flex-col',
+    props.position === 'left' ? 'left-0 border-r border-l-0' : 'right-0',
+]);
 
 const isActive = defineModel();
 
 const sidebar = ref<HTMLElement | null>(null);
 </script>
 
-<style lang="scss">
-@use "sass:map";
-@use "~/assets/styles/settings" as *;
-@use "~/assets/styles/tools";
-
-.sidebar {
-    &--left {
-        left: 0;
-    }
-
-    &--right {
-        right: 0;
-    }
-
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    position: fixed;
-    top: 0;
-    background: $sidebar-bg;
-    z-index: map-get($z-index, "sidebar");
-    padding: 38px 0 56px;
-    display: flex;
-    flex-direction: column;
-
-    @include tools.media-breakpoint-up("sm") {
-        width: 420px;
-    }
-
-    &__header {
-        display: flex;
-        padding: 0 28px;
-    }
-
-    &__content {
-        display: flex;
-        flex-grow: 1;
-        padding: 32px 0;
-        overflow: auto;
-    }
-
-    &__actions {
-        padding: 0 28px;
-    }
-}
+<style scoped>
+/* All styles are now handled by Tailwind CSS */
 </style>

@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     },
     devtools: { enabled: true },
     modules: [
+        "@nuxtjs/tailwindcss",
         "@nuxtjs/google-fonts",
         "nuxt-svgo",
         "@vueuse/nuxt",
@@ -14,6 +15,7 @@ export default defineNuxtConfig({
     googleFonts: {
         families: {
             Lato: true,
+            Inter: true,
         },
     },
     // Runtime config is overridden by .env variables
@@ -46,6 +48,12 @@ export default defineNuxtConfig({
     },
     app: {
         head: {
+            link: [
+                {
+                    rel: 'stylesheet',
+                    href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css'
+                }
+            ],
             script: [{ src: "https://js.tebex.io/v/1.0.0.js", async: true }],
         },
     },

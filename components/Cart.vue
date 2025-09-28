@@ -1,5 +1,5 @@
 <template>
-    <div class="cart">
+    <div class="flex flex-col gap-4 w-full">
         <CartItem
             v-for="item in items"
             :key="item.id"
@@ -8,7 +8,7 @@
             @remove="emit('remove', $event)"
         />
 
-        <div v-if="items.length === 0" class="d-flex justify-center mx-auto">
+        <div v-if="items.length === 0" class="text-center text-gray-400 py-16">
             {{ $t("cart.empty") }}
         </div>
     </div>
@@ -29,15 +29,6 @@ const emit = defineEmits<{
 }>();
 </script>
 
-<style lang="scss" scoped>
-@use "~/assets/styles/settings" as *;
-
-.cart {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    gap: $cart-gap;
-    padding: $cart-padding;
-}
+<style scoped>
+/* All styles are now handled by Tailwind CSS */
 </style>

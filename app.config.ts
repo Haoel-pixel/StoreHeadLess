@@ -23,6 +23,14 @@ export default defineAppConfig({
     confetti: true,
     // Game type name to display on the store
     gameTypeName: "Minecraft",
+    // Sale promotion to display on the store (optional)
+    sale: {
+        title: "Summer Sale",
+        percentage: 47,
+        current: 476.99,
+        target: 999.99,
+        currency: "USD"
+    },
     // Tebex.js settings see https://docs.tebex.io/developers/tebex.js/integration#config
     tebexJsConfig: {
         theme: "dark",

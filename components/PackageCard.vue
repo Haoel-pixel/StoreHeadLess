@@ -1,48 +1,46 @@
 <template>
-    <div :class="classes" :style="style">
-        <div class="package-card__inner">
-            <div
-                class="package-card__image"
-                @click="$router.push(`/package/${pkg.id}`)"
-            >
+    <div class="bg-[#24182a] border border-[#3a2740] rounded-lg flex flex-col hover-card">
+        <div @click="$router.push(`/package/${pkg.id}`)" class="cursor-pointer">
+            <div class="p-8 bg-[#1a121f] rounded-t-lg">
                 <NuxtImg
                     v-if="pkg.image"
                     :src="pkg.image"
                     alt="Package image"
-                    width="220px"
+                    class="w-full h-32 object-contain"
                     loading="lazy"
                 />
-            </div>
-
-            <div
-                class="package-card__details"
-                @click="$router.push(`/package/${pkg.id}`)"
-            >
-                <div class="package-card__meta">
-                    <h5>{{ pkg.name }}</h5>
-                    <h6>
-                        {{
-                            $n(
-                                mapQuantityToPackage(quantity ?? 1).base_price,
-                                "currency",
-                            )
-                        }}
-                    </h6>
-                    <slot>
-                        <p
-                            v-if="showDescription && pkg.description"
-                            v-html="pkg.description"
-                        ></p>
-                    </slot>
+                 <div v-else class="w-full h-32 flex items-center justify-center text-gray-500">
+                    No Image
                 </div>
             </div>
 
+            <div class="p-6">
+                <h5 class="text-xl font-bold">{{ pkg.name }}</h5>
+                <h6 class="text-lg font-semibold text-purple-400 mt-2">
+                    {{
+                        $n(
+                            mapQuantityToPackage(quantity ?? 1).base_price,
+                            "currency",
+                        )
+                    }}
+                </h6>
+                <slot>
+                    <p
+                        v-if="showDescription && pkg.description"
+                        v-html="pkg.description"
+                        class="text-gray-300 mt-2 text-sm"
+                    ></p>
+                </slot>
+            </div>
+        </div>
+
+        <div class="px-6 pb-6 mt-auto">
             <ClientOnly>
                 <PackageActions
                     v-model:quantity="quantity"
                     :hide-options="!!hideOptions"
                     :hide-gift-button="pkg.disable_gifting"
-                    :stacked="!!actionsStacked"
+                    :stacked="true"
                     @add-to-cart="action('addToCart', $event)"
                     @gift="action('gift')"
                     :loading="loadingAction"

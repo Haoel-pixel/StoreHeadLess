@@ -1,16 +1,17 @@
 <template>
     <Sidebar v-model="isActive">
         <template #header>
-            <Button
-                class="cart__close"
-                variant="clear"
-                @click="uiStore.toggleItem('cart-sidebar')"
-                icon="close"
-            ></Button>
-
-            <h4 class="cart__title">
-                {{ $t("cart.title") }}
-            </h4>
+            <div class="flex items-center justify-between w-full">
+                <h4 class="text-2xl font-bold text-white">
+                    {{ $t("cart.title") }}
+                </h4>
+                <Button
+                    variant="clear"
+                    @click="uiStore.toggleItem('cart-sidebar')"
+                    icon="close"
+                    iconSize="28px"
+                />
+            </div>
         </template>
 
         <Cart
@@ -22,7 +23,7 @@
         <template #actions>
             <div
                 v-if="basketStore.basket?.total_price"
-                class="cart__total d-flex justify-space-between my-6"
+                class="flex justify-between my-6 text-2xl font-bold"
             >
                 <span>{{ $t("cart.total") }}</span>
                 <span>
@@ -38,6 +39,7 @@
                 @click="checkout"
                 block
                 variant="success"
+                size="lg"
             >
                 {{ $t("buttons.checkout") }}
             </Button>
@@ -67,20 +69,17 @@ const isActive = computed({
 const { t } = useI18n();
 const appConfig = useAppConfig();
 
-const celerate = () => {
-    // do this for 300 miliseconds
+const celebrate = () => {
     const duration = 300;
     const end = Date.now() + duration;
 
     (function frame() {
-        // launch a few confetti from the left edge
         confetti({
             particleCount: 5,
             angle: 60,
             spread: 55,
             origin: { x: 0 },
         });
-        // and launch a few from the right edge
         confetti({
             particleCount: 5,
             angle: 120,
@@ -88,7 +87,6 @@ const celerate = () => {
             origin: { x: 1 },
         });
 
-        // keep going until we are out of time
         if (Date.now() < end) {
             requestAnimationFrame(frame);
         }
@@ -105,11 +103,9 @@ const onPaymentComplete = () => {
     );
 
     if (appConfig.confetti) {
-        // It's party time! 🎉
-        celerate();
+        celebrate();
     }
 
-    // Log the user out
     authStore.logout();
 };
 
@@ -122,7 +118,6 @@ onMounted(async () => {
         window.Tebex.checkout.on("payment_complete", onPaymentComplete);
 
         window.Tebex.checkout.on("close", () => {
-            // Refresh the basket
             if (basketStore.basket?.ident) {
                 basketStore.getBasket();
             }
@@ -146,7 +141,6 @@ const checkout = async () => {
 
     if (isClient) {
         window.Tebex.checkout.init(config);
-
         window.Tebex.checkout.launch();
     }
 };
@@ -163,21 +157,6 @@ if (appConfig.showCartOnAdd) {
 }
 </script>
 
-<style lang="scss" scoped>
-@use "~/assets/styles/settings" as *;
-
-.cart__title {
-    margin-inline: auto;
-    font-weight: bold;
-    color: $c-800;
-}
-
-.cart__close {
-    position: absolute;
-    color: $c-800;
-}
-
-.cart__total {
-    font-size: 1.5rem;
-}
+<style scoped>
+/* All styles are now handled by Tailwind CSS */
 </style>
