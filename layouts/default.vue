@@ -1,7 +1,22 @@
 <template>
+  <CartSidebar />
+
   <div class="min-h-screen">
     <!-- Header -->
     <header class="relative">
+      <!-- Login Section -->
+      <div class="absolute top-6 right-6 z-10">
+        <div v-if="authStore.isAuthenticated" class="flex items-center gap-4">
+          <img :src="`https://crafatar.com/avatars/${authStore.user.username}?size=40&overlay`" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-purple-400">
+          <span class="font-bold text-white">{{ authStore.user.username }}</span>
+          <Button variant="secondary" size="sm" @click="authStore.logout()">Logout</Button>
+        </div>
+        <div v-else class="flex items-center gap-2">
+          <input v-model="username" type="text" placeholder="Minecraft Username" class="bg-[#24182a] border border-[#3a2740] rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-400">
+          <Button @click="handleLogin" :loading="loading" size="md">Login</Button>
+        </div>
+      </div>
+
       <div class="bg-[linear-gradient(180deg,#100218_0%,#0b0610_60%)] h-48 md:h-56 flex items-center">
         <div class="max-w-6xl mx-auto px-6 flex flex-col items-center justify-center w-full gap-6">
           <!-- IP + Discord Centered -->
@@ -41,9 +56,15 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
+
 const appConfig = useAppConfig();
 const toastStore = useToastStore();
 const uiStore = useUIStore();
+const authStore = useAuthStore();
+
+const username = ref('');
+const loading = ref(false);
 
 const copyIp = () => {
   if (!appConfig.serverIp) return;
@@ -56,6 +77,22 @@ const copyIp = () => {
 
 const openCart = () => {
     uiStore.toggleItem('cart-sidebar');
+};
+
+const handleLogin = async () => {
+    if (!username.value.trim()) {
+        toastStore.addToast('Please enter a username.', { type: 'error' });
+        return;
+    }
+    loading.value = true;
+    try {
+        await authStore.login(username.value);
+        toastStore.addToast(`Logged in as ${username.value}!`, { type: 'success' });
+    } catch (error) {
+        toastStore.addToast('Login failed. Please check the username.', { type: 'error' });
+    } finally {
+        loading.value = false;
+    }
 };
 </script>
 
