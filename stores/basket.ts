@@ -156,7 +156,9 @@ export const useBasketStore = defineStore("basket", () => {
                 quantity,
             });
 
-            await router.push(authStore.getLoginRoute());
+            toastStore.addToast('Please log in to add items to your cart.', {
+                type: 'info',
+            });
             return;
         }
 
@@ -269,7 +271,9 @@ export const useBasketStore = defineStore("basket", () => {
                 targetUsername,
             });
 
-            await router.push(authStore.getLoginRoute());
+            toastStore.addToast('Please log in to gift items.', {
+                type: 'info',
+            });
             return;
         }
 
